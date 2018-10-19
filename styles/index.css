@@ -1,0 +1,209 @@
+﻿/* page */
+.whitespace-sm {
+    margin-top:8px;
+}
+
+.bottom-padding-0 {
+    padding-bottom: 0.0rem;
+}
+
+.padding-1 {
+    padding: 0.1rem;
+}
+
+#navigation .pagedisp {
+  float: right;
+}
+
+#navigation .pagedisp > h1, .pagedisp > h2, .pagedisp > h3, .pagedisp > h4 {
+  color: #fff;
+}
+
+body {
+  background-color: #eadfae;
+  /* Margin bottom by footer height */
+  margin-bottom: 90px;
+}
+
+.mr-1 {
+  margin-right: 0.25rem !important;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 55px;
+  line-height: 55px; /* Vertically center the text there */
+}
+
+.pull-right {
+    right: 0;
+    left: auto;
+    position: absolute;
+}
+
+.card-color-base {
+    background-color: #f0e8c5;
+}
+
+.card-color-tan {
+    background-color: #f5efd6;
+}
+
+table {
+  background-color: #f0e8c5 !important;
+}
+
+.card-body-small {
+  padding: 0.25rem;
+}
+
+.card-body h1, .card-body h2, .card-body h3, .card-body h4, 
+.card-body h5, .card-body h6, .card-body h7, .card-body h8,
+.card-body label {
+  margin-bottom: 0rem;
+}
+
+/* radios */
+.controls .inline-radio {
+	display: inline-block;	
+}
+
+.inline-radio:not(:last-of-type) {
+	margin-right: 20px;
+}
+
+.fixed-radio {
+    min-width:80px; 
+    max-width:100px;
+}
+
+/* buttons */
+.fixed-max-button {
+    max-width:180px;
+}
+
+.fixed-min-button-1 {
+    min-width:45px;
+}
+.fixed-min-button-2 {
+    min-width:55px;
+}
+
+.btn.bidselected {
+  color: #fff;
+  background-color: #006600;
+  border-color: #003300;
+}
+
+/* loader */
+#loader {
+  position: fixed;
+  width: 96px;
+  height: 96px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  -webkit-box-shadow: 0px 24px 64px rgba(0, 0, 0, 0.24);
+  box-shadow: 0px 24px 64px rgba(0, 0, 0, 0.24);
+  border-radius: 16px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity .2s ease-out, visibility 0s linear .2s;
+  -o-transition: opacity .2s ease-out, visibility 0s linear .2s;
+  transition: opacity .2s ease-out, visibility 0s linear .2s;
+  z-index: 1000;
+}
+
+#loader.fullscreen {
+  padding: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  /*background-color: #fff;*/
+  background-color: #f5f5d6;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#loader.show {
+  -webkit-transition: opacity .4s ease-out, visibility 0s linear 0s;
+  -o-transition: opacity .4s ease-out, visibility 0s linear 0s;
+  transition: opacity .4s ease-out, visibility 0s linear 0s;
+  visibility: visible;
+  opacity: 1;
+}
+
+#loader .circular {
+  -webkit-animation: loader-rotate 2s linear infinite;
+  animation: loader-rotate 2s linear infinite;
+  position: absolute;
+  left: calc(50% - 24px);
+  top: calc(50% - 24px);
+  display: block;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+#loader .path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  -webkit-animation: loader-dash 1.5s ease-in-out infinite;
+  animation: loader-dash 1.5s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@-webkit-keyframes loader-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loader-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -136px;
+  }
+}
+
+@keyframes loader-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -136px;
+  }
+}

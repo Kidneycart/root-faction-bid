@@ -961,6 +961,19 @@
             }
         }
     };
+	
+	// donate
+	var donatedd = function() {
+		var x = "3";
+		var mySelect = document.getElementById('donate-dropdown');
+		for(var i, j = 0; i = mySelect.options[j]; j++) {
+			if(i.value == x) {
+				mySelect.selectedIndex = j;
+				break;
+			}
+		}
+	};
+	donatedd();  // INIT, page load
 
     // FUNCTION HOOKS
     // home page
@@ -992,12 +1005,6 @@
     details.addEventListener("click", function () { toggleResultsTableState(); }, false);
     var navAbout = document.getElementsByName('footer-about-button')[0];
     navAbout.addEventListener("click", function () { FOC.toggleAboutDisplay(); }, false);
-    var donate = document.getElementsByName('footer-donate-button')[0];
-    if (donate) {
-        donate.addEventListener("click", function () {
-            //donate(); // TBD, API
-        }, false);
-    }
     // bid
     var bid_fact_buttons = document.getElementsByName('bid-fact-button');
     for (let y = 0; y < bid_fact_buttons.length; y++) {

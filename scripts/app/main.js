@@ -412,7 +412,7 @@
                 pageData.Bidders[pageData.currentBidderId].pendingBid_cost == cost) {
                 // unchoose
                 pageData.Bidders[pageData.currentBidderId].isSet_pendingBid_cost = false;
-                biddingControl.UnSelectAll_BidFactionButtons();
+                biddingControl.UnSelectAll_BidCostButtons();
             } else {
                 // choose
                 pageData.Bidders[pageData.currentBidderId].pendingBid_cost = cost;

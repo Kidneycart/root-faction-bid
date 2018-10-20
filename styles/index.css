@@ -21,6 +21,7 @@
 
 body {
   background-color: #eadfae;
+  font-family: 'Lato', sans-serif;
   /* Margin bottom by footer height */
   margin-bottom: 90px;
 }

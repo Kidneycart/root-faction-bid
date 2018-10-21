@@ -528,6 +528,7 @@
                 Bets: []
             };
             var VariancePackValues = [];
+			var ItemPacks = [];
 
             if (valid) {
                 // VALID Pack
@@ -538,12 +539,13 @@
                 setTimeout(function () {
 
                     // Calculate packs with all bidders and sort by highest value first
-                    PackValues = VCG.CalculatePackValue(BidGroups);
+                    PackValues = VCG.CalculatePackValue(BidGroups, null);
+					ItemPacks = PackValues.ItemPacks;
                     WinningBidPack = PackValues[0]; // the pack sorted to index 0 is the highest value (and lowest stddev) bid set
 
                     // Calculate packs for each bid set with 1 missing bidder each
                     for (var y = 0; y < VarianceBidGroups.length; y++) {
-                        VariancePackValues.push(VCG.CalculatePackValue(VarianceBidGroups[y]));
+                        VariancePackValues.push(VCG.CalculatePackValue(VarianceBidGroups[y], ItemPacks));
                     }
                     VCG.RemoveInvalidBids(); // remove any 0 value items (from pageData.Bidders.Items)
 
@@ -717,7 +719,7 @@
             if (pageData.Fact.fact_V2) { retEmptyGroup.Items.push(biddingControl.getZeroBidFactionItem('V2')); }
             return retEmptyGroup;
         },
-        CalculatePackValue: function (BidGroups) {
+        CalculatePackValue: function (BidGroups, ItemPacks) {
             var PackValues = {
                 ItemPacks: [],
                 Values: [],
@@ -737,60 +739,68 @@
             if (pageData.Fact.fact_LC) { fList.push('LC'); }
             if (pageData.Fact.fact_V2) { fList.push('V2'); }
 
-            // find all possible cartesian matches
-            let cartesianProd = VCG_math.cartesianProductOf(pList, fList);
-            var topAxis = cartesianProd;
-            var leftAxis = cartesianProd;
-            for (var pIndex = 0; pIndex < BidGroups.length - 1; pIndex++) {
-                var resultAxis = VCG_math.cartesianAxis(topAxis, leftAxis);
-                topAxis = resultAxis;
-            }
+			if(ItemPacks == null) // if we have not generated the faction distribution yet, do so
+			{
+				// find all possible cartesian matches
+				let cartesianProd = VCG_math.cartesianProductOf(pList, fList);
+				var topAxis = cartesianProd;
+				var leftAxis = cartesianProd;
+				for (var pIndex = 0; pIndex < BidGroups.length - 1; pIndex++) {
+					var resultAxis = VCG_math.cartesianAxis(topAxis, leftAxis);
+					topAxis = resultAxis;
+				}
 
-            var results = [];
-            var tempRes = [];
-            // sort all entries to ordered strings
-            for (var cIndex = 0; cIndex < resultAxis.length; cIndex++) {
-                tempRes = [];
-                for (var x = 0; x < BidGroups.length; x++) {
-                    for (var y = 0; y < resultAxis[cIndex].length; y++) {
-                        if (resultAxis[cIndex][y] === x) {
-                            tempRes.push(resultAxis[cIndex][y]);
-                            tempRes.push(resultAxis[cIndex][y + 1]);
-                        }
-                    }
-                }
-                results.push(tempRes.join(','));
-            }
+				var results = [];
+				var tempRes = [];
+				// sort all entries to ordered strings
+				for (var cIndex = 0; cIndex < resultAxis.length; cIndex++) {
+					tempRes = [];
+					for (var x = 0; x < BidGroups.length; x++) {
+						for (var y = 0; y < resultAxis[cIndex].length; y++) {
+							if (resultAxis[cIndex][y] === x) {
+								tempRes.push(resultAxis[cIndex][y]);
+								tempRes.push(resultAxis[cIndex][y + 1]);
+							}
+						}
+					}
+					results.push(tempRes.join(','));
+				}
 
-            var tempUniq = [];
-            // take only unique strings
-            var uniqueResults = results.filter(function (v) {
-                if (tempUniq.indexOf(v.toString()) < 0) {
-                    tempUniq.push(v.toString());
-                    return v;
-                }
-            });
+				var tempUniq = [];
+				// take only unique strings
+				var uniqueResults = results.filter(function (v) {
+					if (tempUniq.indexOf(v.toString()) < 0) {
+						tempUniq.push(v.toString());
+						return v;
+					}
+				});
 
-            var tempFinal = [];
-            var finalResults = [];
-            // format back to array for ease
-            for (var z = 0; z < uniqueResults.length; z++) {
-                tempFinal = uniqueResults[z].split(',');
-                for (var i = 0; i < tempFinal.length; i += 2) {
-                    tempFinal[i] = parseInt(tempFinal[i]);
-                }
-                finalResults.push(tempFinal);
-            }
+				var tempFinal = [];
+				var finalResults = [];
+				// format back to array for ease
+				for (var z = 0; z < uniqueResults.length; z++) {
+					tempFinal = uniqueResults[z].split(',');
+					for (var i = 0; i < tempFinal.length; i += 2) {
+						tempFinal[i] = parseInt(tempFinal[i]);
+					}
+					finalResults.push(tempFinal);
+				}
 
-            var total = 0;
-            var tempval = 0;
-            var tempvals = [];
-            // pull values from bids
-            PackValues.ItemPacks = finalResults;
-            for (var j = 0; j < finalResults.length; j++) {
+				var total = 0;
+				var tempval = 0;
+				var tempvals = [];
+				// sorted distribution of possible faction assignment
+				PackValues.ItemPacks = finalResults;
+			} else {
+				// already generated the faction distribution
+				PackValues.ItemPacks = ItemPacks;
+			}
+			
+			// pull values from bids
+            for (var j = 0; j < PackValues.ItemPacks.length; j++) {
                 total = 0;
                 tempvals = [];
-                tempFinal = finalResults[j];
+                tempFinal = PackValues.ItemPacks[j];
                 for (var k = 0; k < tempFinal.length; k += 2) {
                     tempval = VCG.GetFactValue(BidGroups[tempFinal[k]].Items, tempFinal[k + 1]);
                     tempvals.push(tempval);
@@ -802,6 +812,7 @@
 
             // FINAL PACK it together
             var FinalPack = [];
+			FinalPack.ItemPacks = PackValues.ItemPacks; // pass back so we only generate once
             var standardDeviation = 0;
             for (var l = 0; l < PackValues.ItemPacks.length; l++) {
                 standardDeviation = VCG_math.stdDev(PackValues.Bets[l]);

@@ -119,6 +119,9 @@
 
     var refreshBidTable = function () {
         var items = _.cloneDeep(pageData.Bidders[pageData.currentBidderId].Items);
+		_.each(items, function(item){
+			item.faction = getFactionFullName(item.faction);
+		});
         $('#display-bids-table').bootstrapTable({ data: items });
         $('#display-bids-table').bootstrapTable("load", items);
         updateBidTableState();

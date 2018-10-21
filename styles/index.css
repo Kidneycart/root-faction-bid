@@ -57,6 +57,14 @@ body {
     background-color: #f5efd6;
 }
 
+.result-color-self {
+	color: #8c8c8c;
+}
+
+.result-color-harmed {
+	color: #ff4000;
+}
+
 table {
   background-color: #f0e8c5 !important;
 }

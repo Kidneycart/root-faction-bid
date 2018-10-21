@@ -548,6 +548,9 @@
                         VariancePackValues.push(VCG.CalculatePackValue(VarianceBidGroups[y], ItemPacks));
                     }
                     VCG.RemoveInvalidBids(); // remove any 0 value items (from pageData.Bidders.Items)
+					
+					// Sort the variance bid groups so that the most "matching" bid set (with highest value still) is first (makes harm easier to see in detailed results)
+					VariancePackValues = VCG.SortPacksByWinningMatchCount(WinningBidPack, VariancePackValues);
 
                     // Calculate marginal harm and final cost for each bidder
                     var cost = 0;
@@ -831,16 +834,34 @@
         },
         DisplayResults: function (Bidders, WinningBidPack, VariancePackValues) {
             var SecondPlacePack = [];
-            var SecondPlaceString = "";
+			var SecondPlaceString = "";
+            var tempSecondPlaceString = "";
             var HarmString = "";
+			
             for (var x = 0; x < Bidders.length; x++) {
-
                 SecondPlacePack = VariancePackValues[x][0];
                 SecondPlaceString = "";
 
                 for (var y = 0; y < SecondPlacePack.Bets.length; y++) {
-                    SecondPlaceString += "P" + (SecondPlacePack.ItemPacks[(y * 2)]+1) + "=" + SecondPlacePack.ItemPacks[(y * 2) + 1] + " : " + SecondPlacePack.Bets[y] + " </br> ";
-                }
+					tempSecondPlaceString = "P" + (SecondPlacePack.ItemPacks[(y * 2)]+1) + "=" + SecondPlacePack.ItemPacks[(y * 2) + 1];
+					if(x == y) {
+						tempSecondPlaceString += "</br> "; // self 0 bet (variance)
+					} else {
+						tempSecondPlaceString += " : " + SecondPlacePack.Bets[y] + " </br> ";	
+					}					
+					if(x == y) {
+						// self
+						SecondPlaceString += "<span class='result-color-self'>" + tempSecondPlaceString + "</span>";
+					} else {
+						if(WinningBidPack.ItemPacks[(y * 2) + 1] != SecondPlacePack.ItemPacks[(y * 2) + 1]) {
+							// harmed
+							SecondPlaceString += "<span class='result-color-harmed'>" + tempSecondPlaceString + "</span>";
+						} else {
+							// normal
+							SecondPlaceString += tempSecondPlaceString;	
+						}
+					}
+                }				
                 HarmString = SecondPlacePack.Value.toString() + " - " + (WinningBidPack.Value - WinningBidPack.Bets[x]).toString() + " = " + (SecondPlacePack.Value - (WinningBidPack.Value - WinningBidPack.Bets[x])).toString();
 
                 Bidders[x].WBid = WinningBidPack.Bets[x];
@@ -877,6 +898,55 @@
             refreshResultsTable(resultsTableData);
             refreshDetailsTable(detailsTableData);
         },
+		SortPacksByWinningMatchCount: function (WinningBidPack, VariancePackValues) {
+			var winValue = 0;
+			var curMatchCount = 0;
+			var bestMatch = {
+				index: 0,
+				matchcount: 0,
+			}
+			var posIndex = [];
+			var tempItemPack = [];
+			var winningItemPack = WinningBidPack.ItemPacks;
+			for(var i = 0; i < VariancePackValues.length; i++) {
+				posIndex = [];
+				winValue = VariancePackValues[i][0].Value;
+				for(var j = 0; j < VariancePackValues[i].length; j++) {
+					if(VariancePackValues[i][j].Value == winValue) {
+						posIndex.push(j);
+					}
+				}
+				if(posIndex.length > 1){
+					bestMatch.index = 0;
+					bestMatch.matchcount = 0;
+					//find faction set (among all top) that most aligns with factions in winning bid pack
+					for(var k = 0; k < posIndex.length; k++) {
+						tempItemPack = VariancePackValues[i][posIndex[k]].ItemPacks;
+						curMatchCount = VCG.GetPackMatchCount(winningItemPack, tempItemPack);
+						if(curMatchCount > bestMatch.matchcount){
+							bestMatch.index = posIndex[k];
+							bestMatch.matchcount = curMatchCount;
+						}
+					}
+					if(bestMatch.index > 0) {
+						// swap the best with the first
+						var tempItem = _.cloneDeep(VariancePackValues[i][0]);
+						VariancePackValues[i][0] = VariancePackValues[i][bestMatch.index];
+						VariancePackValues[i][bestMatch.index] = tempItem;
+					}
+				}
+			}
+			return VariancePackValues;
+		},
+		GetPackMatchCount: function(winningItemPack, tempItemPack) {
+			var ret = 0;
+			for(var x = 1; x < winningItemPack.length; x += 2) { //compare factions % odd
+				if(winningItemPack[x] == tempItemPack[x]){
+					ret++;
+				}
+			}
+			return ret;
+		},
     };
 
     // MATH

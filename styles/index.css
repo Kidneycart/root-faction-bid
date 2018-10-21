@@ -65,6 +65,14 @@ body {
 	color: #ff4000;
 }
 
+table.bid-table-color {
+  background-color: #f4efd7;
+}
+
+table.bid-table-color thead {
+	background-color: #efe7c2;
+}
+
 table.results-table-color {
   background-color: #efe7c2;
 }

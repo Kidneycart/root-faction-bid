@@ -69,6 +69,10 @@ table {
   background-color: #f0e8c5 !important;
 }
 
+.fixed-min-col {
+	min-width:120px; 
+}
+
 .card-body-small {
   padding: 0.25rem;
 }

@@ -35,8 +35,10 @@
     // DECLARES
     var default_Bidder = {
         Id: -1,
-        Name: "P",
-        DefaultName: "P",
+        Name: "Player",
+		ShortName: "P",
+        DefaultName: "Player",
+		DefaultShortName: "P",
         Items: [],
         pendingBid_faction: "MdC",
         isSet_pendingBid_faction: false,
@@ -343,7 +345,9 @@
         InitDefault: function () {
             default_Bidder.Id = 0;
             default_Bidder.Name = "Player";
+			default_Bidder.ShortName = "P";
             default_Bidder.DefaultName = "Player";
+			default_Bidder.DefaultShortName = "P";
             default_Bidder.Items = [];
             default_Bidder.pendingBid_faction = "MdC";
             default_Bidder.isSet_pendingBid_faction = false;
@@ -353,6 +357,7 @@
         Add: function () {
             default_Bidder.Id += 1;
             default_Bidder.Name = default_Bidder.DefaultName + " " + String(default_Bidder.Id);
+			default_Bidder.ShortName = default_Bidder.DefaultShortName + String(default_Bidder.Id);
             var newBidder = _.cloneDeep(default_Bidder);
             pageData.Bidders.push(newBidder);
         },
@@ -884,7 +889,7 @@
             var detailsTableData = [];
             for (var x = 0; x < Bidders.length; x++) {
                 detailsTableData.push({
-                    player: Bidders[x].Name,
+                    player: Bidders[x].ShortName,
                     faction: Bidders[x].WFact,
                     cost: Bidders[x].Cost_f,
                     precost: Bidders[x].Cost,

@@ -65,8 +65,16 @@ body {
 	color: #ff4000;
 }
 
-table {
-  background-color: #f0e8c5 !important;
+table.results-table-color {
+  background-color: #efe7c2;
+}
+
+table.results-table-color thead {
+	background-color: #faf6eb;
+}
+
+table.results-table-color tbody > tr:nth-child(odd) {
+	background-color: #f4efd7;
 }
 
 .fixed-min-col {

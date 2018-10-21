@@ -189,7 +189,7 @@
 			ret = "Marquise de Cat";
 				break;
 			case "E":
-			ret = "Eerie Dynasties";
+			ret = "Eyrie Dynasties";
 				break;
 			case "WA":
 			ret = "Woodland Alliance";

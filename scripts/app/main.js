@@ -542,10 +542,11 @@
 
                 // allow loading display to show
                 setTimeout(function () {
-
+					// Generate sorted distribution of all possible faction assignments
+					ItemPacks = VCG.GetMasterItemPack(BidGroups);
+					
                     // Calculate packs with all bidders and sort by highest value first
-                    PackValues = VCG.CalculatePackValue(BidGroups, null);
-					ItemPacks = PackValues.ItemPacks;
+                    PackValues = VCG.CalculatePackValue(BidGroups, ItemPacks);
                     WinningBidPack = PackValues[0]; // the pack sorted to index 0 is the highest value (and lowest stddev) bid set
 
                     // Calculate packs for each bid set with 1 missing bidder each
@@ -729,80 +730,15 @@
         },
         CalculatePackValue: function (BidGroups, ItemPacks) {
             var PackValues = {
-                ItemPacks: [],
+                ItemPacks: ItemPacks, // already generated the faction distribution
                 Values: [],
                 Bets: []
             };
-
-            var pList = [];
-            for (var pIndex = 0; pIndex < BidGroups.length; pIndex++) {
-                pList.push(pIndex);
-            }
-            var fList = [];
-            if (pageData.Fact.fact_MdC) { fList.push('MdC'); }
-            if (pageData.Fact.fact_E) { fList.push('E'); }
-            if (pageData.Fact.fact_WA) { fList.push('WA'); }
-            if (pageData.Fact.fact_V1) { fList.push('V1'); }
-            if (pageData.Fact.fact_RC) { fList.push('RC'); }
-            if (pageData.Fact.fact_LC) { fList.push('LC'); }
-            if (pageData.Fact.fact_V2) { fList.push('V2'); }
-
-			if(ItemPacks == null) // if we have not generated the faction distribution yet, do so
-			{
-				// find all possible cartesian matches
-				let cartesianProd = VCG_math.cartesianProductOf(pList, fList);
-				var topAxis = cartesianProd;
-				var leftAxis = cartesianProd;
-				for (var pIndex = 0; pIndex < BidGroups.length - 1; pIndex++) {
-					var resultAxis = VCG_math.cartesianAxis(topAxis, leftAxis);
-					topAxis = resultAxis;
-				}
-
-				var results = [];
-				var tempRes = [];
-				// sort all entries to ordered strings
-				for (var cIndex = 0; cIndex < resultAxis.length; cIndex++) {
-					tempRes = [];
-					for (var x = 0; x < BidGroups.length; x++) {
-						for (var y = 0; y < resultAxis[cIndex].length; y++) {
-							if (resultAxis[cIndex][y] === x) {
-								tempRes.push(resultAxis[cIndex][y]);
-								tempRes.push(resultAxis[cIndex][y + 1]);
-							}
-						}
-					}
-					results.push(tempRes.join(','));
-				}
-
-				var tempUniq = [];
-				// take only unique strings
-				var uniqueResults = results.filter(function (v) {
-					if (tempUniq.indexOf(v.toString()) < 0) {
-						tempUniq.push(v.toString());
-						return v;
-					}
-				});
-
-				var tempFinal = [];
-				var finalResults = [];
-				// format back to array for ease
-				for (var z = 0; z < uniqueResults.length; z++) {
-					tempFinal = uniqueResults[z].split(',');
-					for (var i = 0; i < tempFinal.length; i += 2) {
-						tempFinal[i] = parseInt(tempFinal[i]);
-					}
-					finalResults.push(tempFinal);
-				}
-
-				var total = 0;
-				var tempval = 0;
-				var tempvals = [];
-				// sorted distribution of possible faction assignment
-				PackValues.ItemPacks = finalResults;
-			} else {
-				// already generated the faction distribution
-				PackValues.ItemPacks = ItemPacks;
-			}
+			
+			var total = 0;
+			var tempval = 0;
+			var tempvals = [];
+			var tempFinal = [];
 			
 			// pull values from bids
             for (var j = 0; j < PackValues.ItemPacks.length; j++) {
@@ -820,7 +756,6 @@
 
             // FINAL PACK it together
             var FinalPack = [];
-			FinalPack.ItemPacks = PackValues.ItemPacks; // pass back so we only generate once
             var standardDeviation = 0;
             for (var l = 0; l < PackValues.ItemPacks.length; l++) {
                 standardDeviation = VCG_math.stdDev(PackValues.Bets[l]);
@@ -832,11 +767,72 @@
                 });
             }
 
-            // Sort by Value (highest), then StandardDeviation (lowest)
-            FinalPack.sort(valuecompare);
+			// Sort by Value (highest), then StandardDeviation (lowest)
+			FinalPack.sort(valuecompare);
 
-            return FinalPack;
+			return FinalPack;
         },
+		GetMasterItemPack: function (BidGroups) { // calculate sorted distribution of all possible faction assignments
+			var pList = [];
+			for (var pIndex = 0; pIndex < BidGroups.length; pIndex++) {
+				pList.push(pIndex);
+			}
+			var fList = [];
+			if (pageData.Fact.fact_MdC) { fList.push('MdC'); }
+			if (pageData.Fact.fact_E) { fList.push('E'); }
+			if (pageData.Fact.fact_WA) { fList.push('WA'); }
+			if (pageData.Fact.fact_V1) { fList.push('V1'); }
+			if (pageData.Fact.fact_RC) { fList.push('RC'); }
+			if (pageData.Fact.fact_LC) { fList.push('LC'); }
+			if (pageData.Fact.fact_V2) { fList.push('V2'); }
+			
+			// find all possible cartesian matches
+			let cartesianProd = VCG_math.cartesianProductOf(pList, fList);
+			var topAxis = cartesianProd;
+			var leftAxis = cartesianProd;
+			for (var pIndex = 0; pIndex < BidGroups.length - 1; pIndex++) {
+				var resultAxis = VCG_math.cartesianAxis(topAxis, leftAxis);
+				topAxis = resultAxis;
+			}
+
+			var results = [];
+			var tempRes = [];
+			// sort all entries to ordered strings
+			for (var cIndex = 0; cIndex < resultAxis.length; cIndex++) {
+				tempRes = [];
+				for (var x = 0; x < BidGroups.length; x++) {
+					for (var y = 0; y < resultAxis[cIndex].length; y++) {
+						if (resultAxis[cIndex][y] === x) {
+							tempRes.push(resultAxis[cIndex][y]);
+							tempRes.push(resultAxis[cIndex][y + 1]);
+						}
+					}
+				}
+				results.push(tempRes.join(','));
+			}
+
+			var tempUniq = [];
+			// take only unique strings
+			var uniqueResults = results.filter(function (v) {
+				if (tempUniq.indexOf(v.toString()) < 0) {
+					tempUniq.push(v.toString());
+					return v;
+				}
+			});
+
+			var tempFinal = [];
+			var finalResults = [];
+			// format back to array for ease
+			for (var z = 0; z < uniqueResults.length; z++) {
+				tempFinal = uniqueResults[z].split(',');
+				for (var i = 0; i < tempFinal.length; i += 2) {
+					tempFinal[i] = parseInt(tempFinal[i]);
+				}
+				finalResults.push(tempFinal);
+			}
+			
+			return finalResults;
+		},
         DisplayResults: function (Bidders, WinningBidPack, VariancePackValues) {
             var SecondPlacePack = [];
 			var SecondPlaceString = "";

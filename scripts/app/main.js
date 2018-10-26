@@ -13,6 +13,7 @@
 
     // DATA
     var pageData = {
+		templateItemArray: [],
         currentBidderId: 0,
         Bidders: [],
         Fact: {
@@ -30,7 +31,6 @@
         showDetails: false,
         returnPage: '#home-container',
         showingAboutPage: false,
-		isCalculateWarning: false,
     };
 
     // DECLARES
@@ -227,7 +227,6 @@
     // FUNCTIONS - FoC
     var FOC = {
         resetPage: function () {
-			pageData.isCalculateWarning = false;
             biddingControl.UnSelectAll_BidFactionButtons();
             biddingControl.UnSelectAll_BidCostButtons();
             setPageNumber("");
@@ -235,7 +234,7 @@
         },
         startBidding: function () {
             var playerCount = bidderControl.GetFactionCount();
-            if (playerCount >= 2 && playerCount < 7) { // must have choosen at least 2-6 factions to start bid entry
+            if (playerCount >= 2 && playerCount <= 7) { // must have choosen at least 2-7 factions to start bid entry
                 bidderControl.RemoveAll();
                 bidderControl.InitDefault();
                 for (var x = 0; x < playerCount; x++) {
@@ -243,57 +242,27 @@
                 }
                 pageData.currentBidderId = 0;
                 FOC.setupEntryForm();
-				if (playerCount == 6) {
-					FOC.showWarning(false);
-				} else {
-					// start bidding
-					navigateToPage('#entry-container');
-				}
+				// start bidding
+				navigateToPage('#entry-container');
             } else {
-				if (playerCount >= 7) {
-					FOC.showError();
-				} else {
-					FOC.resetPage();
-				}
+				FOC.resetPage();
             }
         },
 		tryPack: function () {
-			var playerCount = bidderControl.GetFactionCount();
-			if (playerCount == 6) {
-				FOC.showWarning(true);
-			} else {
-				// begin calculate
-				VCG.Pack();
-			}
+			var playerCount = bidderControl.GetFactionCount(); // not needed
+			// begin calculate
+			VCG.Pack();
 		},
-		showWarning: function(postBid) {
-			pageData.isCalculateWarning = postBid;
-			if(postBid) {
-				setWarningSubText("Wait for the page to finish loading, or refresh your browser to cancel.");
-				setWarningOKButtonText("CALCULATE");
-			} else {
-				setWarningSubText("");
-				setWarningOKButtonText("That's OK, Start Bidding");
-			}
+		showWarning: function() {
+			setWarningSubText("");
+			setWarningOKButtonText("");
 			navigateToPage('#warning-container');
 		},
 		warningCancel: function() {
 			FOC.resetPage();
 		},
 		warningConfirm: function() {
-			if(pageData.isCalculateWarning) {
-				// begin calculate
-				VCG.Pack();
-			} else {
-				// start bidding
-				navigateToPage('#entry-container');
-			}
-		},
-		showError: function() {
-			navigateToPage('#error-container');
-		},
-		errorConfirm: function() {
-			navigateToPage('#home-container');
+			FOC.resetPage();
 		},
         setupEntryForm: function () {
             if (pageData.Bidders.length > pageData.currentBidderId) {
@@ -605,7 +574,8 @@
                 // allow loading display to show
                 setTimeout(function () {
 					// Generate sorted distribution of all possible faction assignments
-					ItemPacks = VCG.GetMasterItemPack(BidGroups);
+					//ItemPacks = VCG.GetMasterItemPack_bruteForce(BidGroups);
+					ItemPacks = VCG.GetMasterItemPack_fromFileData();
 					
                     // Calculate packs with all bidders and sort by highest value first
                     PackValues = VCG.CalculatePackValue(BidGroups, ItemPacks);
@@ -659,7 +629,6 @@
                     // Set display
                     VCG.DisplayResults(pageData.Bidders, WinningBidPack, VariancePackValues);
                     navigateToPage('#results-container');
-
                     // Hide loading spinner
                     setloader(false);
                 }, 100);
@@ -834,7 +803,7 @@
 
 			return FinalPack;
         },
-		GetMasterItemPack: function (BidGroups) { // calculate sorted distribution of all possible faction assignments
+		GetMasterItemPack_bruteForce: function (BidGroups) { // calculate sorted distribution of all possible faction assignments
 			var pList = [];
 			for (var pIndex = 0; pIndex < BidGroups.length; pIndex++) {
 				pList.push(pIndex);
@@ -892,8 +861,20 @@
 				}
 				finalResults.push(tempFinal);
 			}
-			
 			return finalResults;
+		},
+		GetMasterItemPack_fromFileData: function () {
+			var factionPlaceholders = ['AA','BB','CC','DD','EE','FF','GG','HH'];
+			// get template by player count
+			var playerCount = bidderControl.GetFactionCount();	
+			var templateItemString = JSON.stringify(pageData.templateItemArray[playerCount]);
+			// replace placeholder faction names with factions in game
+			var items = VCG.GetEmptyBidGroup().Items;
+			for(var x = 0; x < items.length; x++) {
+			  templateItemString = templateItemString.replace(new RegExp(factionPlaceholders[x], 'g'), items[x].faction);
+			}
+			var result = JSON.parse(templateItemString);
+			return result;
 		},
         DisplayResults: function (Bidders, WinningBidPack, VariancePackValues) {
             var SecondPlacePack = [];
@@ -1025,11 +1006,9 @@
         },
         cartesianAxis: function (cartTopAxis, cartLeftAxis) {
             var retAxis = [];
-
             var topAxis = [];
             var leftAxis = [];
             var validCombo = true;
-
             for (var y = 0; y < cartTopAxis.length; y++) {
                 topAxis = cartTopAxis[y];
                 for (var z = 0; z < cartLeftAxis.length; z++) {
@@ -1153,8 +1132,6 @@
     warnCancel.addEventListener("click", function () { FOC.warningCancel(); }, false);
 	var warnOK = document.getElementsByName('warning-confirm-button')[0];
     warnOK.addEventListener("click", function () { FOC.warningConfirm(); }, false);
-	var errorOK = document.getElementsByName('error-confirm-button')[0];
-    errorOK.addEventListener("click", function () { FOC.errorConfirm(); }, false);
     // bid
     var bid_fact_buttons = document.getElementsByName('bid-fact-button');
     for (let y = 0; y < bid_fact_buttons.length; y++) {
@@ -1170,5 +1147,16 @@
             biddingControl.ChooseBidCost(e.target, bid_cost_buttons[x].value);
         }, false);
     }
+	
+	// INIT item template array - precalculated faction distribution
+	$.get('./data/items.txt', function(data) {
+		var array = [];
+		var items = data.getElementsByTagName('item');
+		for (var x = 0; x < items.length; x++) {
+			array.push(JSON.parse(items[x].innerHTML));
+		}
+		pageData.templateItemArray = array;
+	}, 'xml')
 
 })(jQuery);
+

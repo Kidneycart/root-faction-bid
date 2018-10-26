@@ -30,6 +30,7 @@
         showDetails: false,
         returnPage: '#home-container',
         showingAboutPage: false,
+		isCalculateWarning: false,
     };
 
     // DECLARES
@@ -181,6 +182,14 @@
     var setNextButtonText = function (value) {
         document.getElementsByName('entry-next-button')[0].innerHTML = value;
     };
+	
+	var setWarningOKButtonText = function (value) {
+        document.getElementsByName('warning-confirm-button')[0].innerHTML = value;
+    };
+	
+	var setWarningSubText = function (value) {
+        document.getElementsByName('warning-subtext')[0].innerHTML = value;
+    };
 
     var setPlayerName = function (value) {
         document.getElementById('label-entry-player-name').innerHTML = value;
@@ -218,6 +227,7 @@
     // FUNCTIONS - FoC
     var FOC = {
         resetPage: function () {
+			pageData.isCalculateWarning = false;
             biddingControl.UnSelectAll_BidFactionButtons();
             biddingControl.UnSelectAll_BidCostButtons();
             setPageNumber("");
@@ -225,7 +235,7 @@
         },
         startBidding: function () {
             var playerCount = bidderControl.GetFactionCount();
-            if (playerCount >= 2) { // must have choosen at least 2 factions to start bid entry
+            if (playerCount >= 2 && playerCount < 7) { // must have choosen at least 2-6 factions to start bid entry
                 bidderControl.RemoveAll();
                 bidderControl.InitDefault();
                 for (var x = 0; x < playerCount; x++) {
@@ -233,11 +243,58 @@
                 }
                 pageData.currentBidderId = 0;
                 FOC.setupEntryForm();
-                navigateToPage('#entry-container');
+				if (playerCount == 6) {
+					FOC.showWarning(false);
+				} else {
+					// start bidding
+					navigateToPage('#entry-container');
+				}
             } else {
-                FOC.resetPage();
+				if (playerCount >= 7) {
+					FOC.showError();
+				} else {
+					FOC.resetPage();
+				}
             }
         },
+		tryPack: function () {
+			var playerCount = bidderControl.GetFactionCount();
+			if (playerCount == 6) {
+				FOC.showWarning(true);
+			} else {
+				// begin calculate
+				VCG.Pack();
+			}
+		},
+		showWarning: function(postBid) {
+			pageData.isCalculateWarning = postBid;
+			if(postBid) {
+				setWarningSubText("Wait for the page to finish loading, or refresh your browser to cancel.");
+				setWarningOKButtonText("CALCULATE");
+			} else {
+				setWarningSubText("");
+				setWarningOKButtonText("That's OK, Start Bidding");
+			}
+			navigateToPage('#warning-container');
+		},
+		warningCancel: function() {
+			FOC.resetPage();
+		},
+		warningConfirm: function() {
+			if(pageData.isCalculateWarning) {
+				// begin calculate
+				VCG.Pack();
+			} else {
+				// start bidding
+				navigateToPage('#entry-container');
+			}
+		},
+		showError: function() {
+			navigateToPage('#error-container');
+		},
+		errorConfirm: function() {
+			navigateToPage('#home-container');
+		},
         setupEntryForm: function () {
             if (pageData.Bidders.length > pageData.currentBidderId) {
                 // init
@@ -272,7 +329,7 @@
                 setPageNumber("");
                 navigateToPage('#loading-container');
                 // no more bidders, calculate results
-                VCG.Pack();
+				FOC.tryPack();
             }
         },
         toggleAboutDisplay: function () {
@@ -294,6 +351,8 @@
         $('#loading-container').hide();
         $('#results-container').hide();
         $('#about-container').hide();
+		$('#warning-container').hide();
+		$('#error-container').hide();
         // show one
         $(divName).show();
         // set page to show when closing about-container
@@ -1090,6 +1149,12 @@
     details.addEventListener("click", function () { toggleResultsTableState(); }, false);
     var navAbout = document.getElementsByName('footer-about-button')[0];
     navAbout.addEventListener("click", function () { FOC.toggleAboutDisplay(); }, false);
+	var warnCancel = document.getElementsByName('warning-cancel-button')[0];
+    warnCancel.addEventListener("click", function () { FOC.warningCancel(); }, false);
+	var warnOK = document.getElementsByName('warning-confirm-button')[0];
+    warnOK.addEventListener("click", function () { FOC.warningConfirm(); }, false);
+	var errorOK = document.getElementsByName('error-confirm-button')[0];
+    errorOK.addEventListener("click", function () { FOC.errorConfirm(); }, false);
     // bid
     var bid_fact_buttons = document.getElementsByName('bid-fact-button');
     for (let y = 0; y < bid_fact_buttons.length; y++) {

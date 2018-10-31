@@ -26,6 +26,10 @@ body {
   margin-bottom: 90px;
 }
 
+li{
+  margin: 6px 0;
+}
+
 .mr-1 {
   margin-right: 0.25rem !important;
 }

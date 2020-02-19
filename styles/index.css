@@ -16,28 +16,12 @@
 }
 
 #navigation .pagedisp > h1, .pagedisp > h2, .pagedisp > h3, .pagedisp > h4 {
-  color: #E1E0E3;
-}
-
-#navigation .navbar-header > .navbar-brand > h3 {
-  font-family: 'Roboto Bold', sans-serif;
-  color: #E1E0E3;
-}
-
-#about-container .card .card-body h3  {
-  color: #181818;
-  font-weight: bold;
-}
-
-#about-container .card .card-body h5 {
-  color: #282828;
-  font-family: 'Roboto Light', sans-serif;
-  font-style: italic;
+  color: #fff;
 }
 
 body {
-  background-color: #282828;
-  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #eadfae;
+  font-family: 'Lato', sans-serif;
   /* Margin bottom by footer height */
   margin-bottom: 90px;
 }
@@ -69,37 +53,40 @@ li{
     position: absolute;
 }
 
-/* colors */
-.color-rat-gray-00 {
-    background-color: #181818;
-}
-
-.card-color-rat-gray-00 {
-    background-color: #181818;
-}
-
-.card-color-rat-gray-01 {
-    background-color: #282828;
-}
-
-.card-color-rat-gray-02 {
-    background-color: #9C9C9C;
-}
-
-.card-color-rat-gray-03 {
-    background-color: #E1E0E3;
-}
-
-.card-color-rat-gray-04 {
-    background-color: #C3C0C7;
-}
-
-.card-color-regular-tan {
+.card-color-base {
     background-color: #f0e8c5;
 }
 
-.card-color-light-tan {
+.card-color-tan {
     background-color: #f5efd6;
+}
+
+.result-color-self {
+	color: #8c8c8c;
+}
+
+.result-color-harmed {
+	color: #ff4000;
+}
+
+table.bid-table-color {
+  background-color: #f4efd7;
+}
+
+table.bid-table-color thead {
+	background-color: #efe7c2;
+}
+
+table.results-table-color {
+  background-color: #efe7c2;
+}
+
+table.results-table-color thead {
+	background-color: #faf6eb;
+}
+
+table.results-table-color tbody > tr:nth-child(odd) {
+	background-color: #f4efd7;
 }
 
 .fixed-min-col {
@@ -117,14 +104,35 @@ li{
 }
 
 /* radios */
+.controls .inline-radio {
+	display: inline-block;	
+}
+
+.inline-radio:not(:last-of-type) {
+	margin-right: 20px;
+}
+
+.fixed-radio {
+    min-width:80px; 
+    max-width:100px;
+}
 
 /* buttons */
-.fixed-max-width-button-00 {
+.fixed-max-button {
     max-width:180px;
 }
 
-.fixed-min-width-button-00 {
+.fixed-min-button-1 {
+    min-width:45px;
+}
+.fixed-min-button-2 {
     min-width:55px;
+}
+
+.btn.bidselected {
+  color: #fff;
+  background-color: #006600;
+  border-color: #003300;
 }
 
 /* loader */

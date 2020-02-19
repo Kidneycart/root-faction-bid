@@ -1,2 +1,2 @@
-# year-of-the-rat-dev
-Video game development blog
+# root-faction-bid
+Root faction bid using marginal harm cost

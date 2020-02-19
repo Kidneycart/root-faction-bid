@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>year-of-the-rat-dev</title>
+    <title>Root Faction Bid</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="development_blog">
-    <meta name="author" content="yearoftheratdev">
+    <meta name="description" content=""> <!--TBD : Add meta tag info -->
+    <meta name="author" content="">
 
     <!-- Bootstrap core Style -->
     <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css" />
@@ -14,19 +14,15 @@
 
     <!-- Theme Style -->
     <link rel="stylesheet" href="./styles/index.css" />
-
-    <!-- Font Style -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet"> 
 </head>
 <body>
     <!-- Header -->
-    <nav id="navigation" class="navbar navbar-dark color-rat-gray-00 sticky-top max-height-header">
+    <nav id="navigation" class="navbar navbar-dark bg-dark sticky-top max-height-header">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a name="nav-home" class="navbar-brand bottom-padding-0" href="#">
-                    <h3>year-of-the-rat-dev Development Blog</h3>
+                    <h3>Root Faction Bid</h3>
                 </a>
             </div>
             <div class="pagedisp">
@@ -41,47 +37,106 @@
     <!-- HOME - Page Content -->
     <div id="home-container" class="container">
         <div class="whitespace-sm"></div>
-        <!--CARD 0-->
+        <!--Allow Neg Radios-->
         <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
-                <div class="row">
-
-                </div>
-            </div>
-        </div>
-        <!--CARD 0 end-->
-        <!--CARD 1 end-->
-        <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
+            <div class="card-body card-body-small card-color-base">
                 <div class="row">
                     <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-right">
-                        <h5>Here</h5>
+                        <h5>Allow Negative:</h5>
                     </div>
                     <div class="col-6 col-sm-6 col-md-8 col-lg-10 text-left">
                         <div class="row">
-                            <h6>and</h6>
+                            <div class="col-4 fixed-radio">
+                                <label class="radio inline-radio">
+                                    <input type="radio" name="allowneg" value="false">
+                                    No
+                                </label>
+                            </div>
+                            <div class="col-4 fixed-radio">
+                                <label class="radio inline-radio">
+                                    <input type="radio" name="allowneg" value="true">
+                                    Yes
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--CARD 1 end-->
-        <!--CARD 2-->
+        <!--Allow Neg Radios-->
+        <!--Min Cost Radios-->
         <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
+            <div class="card-body card-body-small card-color-base">
+                <div class="row">
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-2 text-right">
+                        <h5>Uncontested Pays:</h5>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-8 col-lg-10 text-left">
+                        <div class="row">
+                            <div class="col-4 fixed-radio">
+                                <label class="radio inline-radio">
+                                    <input type="radio" name="uncontestedcost" value="Zero">
+                                    Zero
+                                </label>
+                            </div>
+                            <div class="col-4 fixed-radio">
+                                <label class="radio inline-radio">
+                                    <input type="radio" name="uncontestedcost" value="One">
+                                    One
+                                </label>
+                            </div>
+                            <!--<div class="col-4 fixed-radio">
+                                <label class="radio inline-radio">
+                                    <input type="radio" name="uncontestedcost" value="Full">
+                                    Full
+                                </label>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Min Cost Radios-->
+        <!--Faction Buttons-->
+        <div class="card m-1">
+            <div class="card-body card-body-small card-color-base">
                 <div class="row">
                     <div class="col-4 col-lg-2 text-right">
-                        <h5>There</h5>
+                        <h5>Factions:</h5>
                     </div>
                     <div class="col-8 col-lg-10 text-left">
                         <div class="row">
-                            <h6>also</h6>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_MdC" class="btn btn-success">Marquise de Cat</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_E" class="btn btn-success">Eyrie Dynasties</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_WA" class="btn btn-success">Woodland Alliance</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_V1" class="btn btn-success">Vagabond (1)</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_RC" class="btn btn-dark">Riverfolk Company</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_LC" class="btn btn-dark">Lizard Cult</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                                <button type="button" name="fact-button" value="fact_V2" class="btn btn-dark">Vagabond (2)</button>
+                            </div>
+                            <div class="col-3 fixed-max-button mb-1">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--CARD 2 end-->
+        <!--Faction Buttons-->
         <!--Buttons-->
         <div class="row">
             <div class="col-12">
@@ -90,7 +145,7 @@
                 </div>
                 <div class="btn-group pull-right">
                     <div class="pull-right p-1 mr-1">
-                        <!-- <button type="button" name="start-button" class="btn btn-lg btn-primary">START</button> -->
+                        <button type="button" name="start-button" class="btn btn-lg btn-primary">START</button>
                     </div>
                 </div>
             </div>
@@ -102,26 +157,124 @@
     <div id="entry-container" class="container" style="display:none;">
         <div class="whitespace-sm"></div>
         <h3 id="label-entry-player-name"></h3>
-        <!--Display-->
-        <div id="display-top-none" style="display:none;">
-
-        </div>
-        <div id="display-top-div" style="display:none;">
-
-        </div>
-        <!--Display-->
-        <!--CARD 0-->
-        <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
+        <!--Bid Display-->
+        <div id="display-bids-none" style="display:none;">
+            <div class="card m-1">
+                <div class="card-body card-color-tan" style="text-align:center;">
+                    <h4>No Bid(s)</h4>
+                </div>
             </div>
         </div>
-        <!--CARD 0 end-->
-        <!--CARD 1-->
+        <div id="display-bids-div" style="display:none;">
+            <table id="display-bids-table" class="table table-condensed bid-table-color">
+                <thead>
+                    <tr>
+                        <th data-field="faction">Faction</th>
+                        <th data-field="bid">Bid</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <!--Bid Display-->
+        <!--Bid Numbers-->
         <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
+            <div class="card-body card-body-small card-color-base">
+                <h6 class="mb-1">Faction:</h6>
+                <div id="display-fact-bid-buttons" class="row">
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-MdC" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="MdC" class="btn btn-block fixed-min-button-2">MdC</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-E" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="E" class="btn btn-block fixed-min-button-2">E</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-WA" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="WA" class="btn btn-block fixed-min-button-2">WA</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-V1" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="V1" class="btn btn-block fixed-min-button-2">V1</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-RC" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="RC" class="btn btn-block fixed-min-button-2">RC</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-LC" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="LC" class="btn btn-block fixed-min-button-2">LC</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1" name="bid-fact-div-V2" style="display:none;">
+                        <button type="button" name="bid-fact-button" value="V2" class="btn btn-block fixed-min-button-2">V2</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <!--CARD 1 end-->
+        <!--Bid Factions-->
+        <!--Bid Numbers-->
+        <div class="card m-1">
+            <div class="card-body card-body-small card-color-base">
+                <h6 class="mb-1">VP:</h6>
+                <!--NEG Numbers-->
+                <div id="display-negative-bid-buttons" class="row" style="display:none;">
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-6" class="btn btn-block fixed-min-button-1">-6</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-5" class="btn btn-block fixed-min-button-1">-5</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-4" class="btn btn-block fixed-min-button-1">-4</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-3" class="btn btn-block fixed-min-button-1">-3</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-2" class="btn btn-block fixed-min-button-1">-2</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="-1" class="btn btn-block fixed-min-button-1">-1</button>
+                    </div>
+                </div>
+                <!--NEG Numbers-->
+                <!--POS Numbers-->
+                <div id="display-positive-bid-buttons" class="row">
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="0" class="btn btn-block fixed-min-button-1">0</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="1" class="btn btn-block fixed-min-button-1">1</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="2" class="btn btn-block fixed-min-button-1">2</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="3" class="btn btn-block fixed-min-button-1">3</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="4" class="btn btn-block fixed-min-button-1">4</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="5" class="btn btn-block fixed-min-button-1">5</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="6" class="btn btn-block fixed-min-button-1">6</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="7" class="btn btn-block fixed-min-button-1">7</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="8" class="btn btn-block fixed-min-button-1">8</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="9" class="btn btn-block fixed-min-button-1">9</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="10" class="btn btn-block fixed-min-button-1">10</button>
+                    </div>
+                    <div class="col-2 col-md-1 mb-1">
+                        <button type="button" name="bid-cost-button" value="11" class="btn btn-block fixed-min-button-1">11</button>
+                    </div>
+                </div>
+                <!--POS Numbers-->
+            </div>
+        </div>
+        <!--Bid Numbers-->
         <!--Buttons-->
         <div class="whitespace-sm"></div>
         <div class="row">
@@ -131,7 +284,7 @@
                 </div>
                 <div class="btn-group pull-right">
                     <div class="pull-right p-1 mr-1">
-                        <!-- <button type="button" name="entry-next-button" class="btn btn-lg btn-primary">NEXT</button> -->
+                        <button type="button" name="entry-next-button" class="btn btn-lg btn-primary">NEXT</button>
                     </div>
                 </div>
             </div>
@@ -172,16 +325,42 @@
     <div id="results-container" class="container" style="display:none;">
         <div class="whitespace-sm"></div>
         <h3 id="label-results-header">Results</h3>
+        <div id="display-results-div" style="display:none;">
+            <table id="display-results-table" class="table table-condensed results-table-color">
+                <thead>
+                    <tr>
+                        <th data-field="player">Player</th>
+                        <th data-field="faction">Faction</th>
+                        <th data-field="cost">Cost</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="display-results-details-div" style="display:none;">
+            <table id="display-results-details-table" class="table table-condensed results-table-color">
+                <thead>
+                    <tr>
+                        <th data-field="player">P</th>
+                        <th data-field="faction">Fact</th>
+                        <th data-field="winningbid">Bid</th>
+                        <th data-field="secondplaceresults" class="fixed-min-col">2nd</th>
+                        <th data-field="harm">Harm</th>
+                        <th data-field="precost">Cost</th>
+                        <th data-field="cost">Final</br>Cost</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
         <div class="whitespace-sm"></div>
         <!--Buttons-->
         <div class="row">
             <div class="col-12">
                 <div class="btn-group p-1">
-                    <!-- <button type="button" name="results-details-button" class="btn btn-secondary">Details</button> -->
+                    <button type="button" name="results-details-button" class="btn btn-secondary">Details</button>
                 </div>
                 <div class="btn-group pull-right">
                     <div class="pull-right p-1 mr-1">
-                        <!-- <button type="button" name="results-done-button" class="btn btn-lg btn-primary">DONE</button> -->
+                        <button type="button" name="results-done-button" class="btn btn-lg btn-primary">DONE</button>
                     </div>
                 </div>
             </div>
@@ -192,52 +371,71 @@
     <!-- ABOUT - Page Content -->
     <div id="about-container" class="container" style="display:none;">
         <div class="whitespace-sm"></div>
-        <!--About-->
-        <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
-                <div class="row" style="text-align:left">
-                    <div class="col-12">
-					    <h3>&nbsp;&nbsp;&nbsp;About</h3>
-                    </div>
-				</div>
-                <div class="row" style="text-align:left">
-                    <div class="col-12">
-                    <p>
-                        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is the video game development blog for yearoftheratdev.<h5/>
-                    </p>
-                    <p>
-                        <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There doesn't seem to be much here.<h5/>
-                    </p>
-                    </div>
-				</div>
-            </div>
-        </div>
-        <!--About-->
+        <h3>About</h3>
+		<h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This site implements a sealed-bid 'second price' auction to assign a faction and cost to each player. Good luck and have fun!<h4/>
 		<hr />
-		<!--Info-->
+		<!--Rules-->
         <div class="card m-1">
-            <div class="card-body card-body-small card-color-rat-gray-02">
-                <div class="row" style="text-align:left">
-                    <div class="col-12">
-					    <h3>&nbsp;&nbsp;&nbsp;Info</h3>
-                    </div>
+            <div class="card-body card-body-small card-color-base">
+                <div class="row" style="text-align:center">
+					<h3>&nbsp;&nbsp;&nbsp;Game Setup</h3>
 				</div>
+				<div class="row pr-3">
+					<h5>
+					<ol>
+						<li><b>Choose factions</b> in game using any method.</li>
+						<li>Use <b>winter board</b> with random clearing nations.</li>
+						<li>Place factions in <b>random seating order</b> and randomly determine the starting faction.</li>
+						<ul>
+							<li>Players will know the complete turn order before bidding.</li>
+						</ul>
+						<li><b>Deal</b> a hand of <b>4 cards</b> to each player.</li>
+						<li><b>Bid.</b> Get faction assignments and costs.</li>
+						<ul>
+							<li>Each player takes their assigned faction board and pieces.</li>
+						</ul>
+						<li><b>SUB 30:</b> Subtract your cost <i>(if not 0)</i> from 30 and place your VP marker on that number.</li>
+						<ul>
+							<li>The first time you would hit 30, go to 0 instead.</li>
+						</ul>
+						<li><b>Discard 1 card</b> from each player, facedown to the deck and reshuffle.</li>
+						<li>Do faction setup (A/B/C...) <b>Play</b> as usual.</li>
+					</ol>
+					</h5>
+                </div>
             </div>
         </div>
-        <!--Info-->
+        <!--Rules-->
     </div>
     <!-- ABOUT - Page Content -->
     <!-- Footer -->
-    <footer id="footer" class="footer color-rat-gray-00">
+    <footer id="footer" class="footer bg-dark">
         <div class="container">
             <div class="row pt-2">
                 <div class="col-10">
-
+                    <div class="btn-group">	
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+							<input type="hidden" name="cmd" value="_s-xclick">
+							<input type="hidden" name="hosted_button_id" value="85JJDDZGMFL6N">
+							<table class="bg-dark">
+							<tr><td><select name="os0" id="donate-dropdown" class="form-control form-control-sm">
+								<option value="1">$1.00 USD</option>
+								<option value="3" selected="selected">$3.00 USD</option>
+								<option value="5">$5.00 USD</option>
+								<option value="10">$10.00 USD</option>
+							</select> </td><td class="pt-3">							
+								<input type="hidden" name="currency_code" value="USD">
+								<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Buy the dev a Red Bull!">
+								<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+							</td></tr>
+							</table>
+						</form>
+                    </div>
 				</div>
 				<div class="col-2">
 					<div class="btn-group pull-right">
 						<div class="pull-right mr-1">
-							<button type="button" name="footer-about-button" class="btn btn-secondary p-2">About</button>
+							<button type="button" name="footer-about-button" class="btn btn-secondary p-2">Rules / Info</button>
 						</div>
 					</div>
                 </div>
